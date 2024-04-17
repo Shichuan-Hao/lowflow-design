@@ -7,11 +7,11 @@ import {Field} from "~/components/Render/interface";
 
 const activeName = ref('properties')
 
-export interface ApprovalAttr {
+export interface MeterialReportAttr {
   node: CcNode
 }
 
-const $props = defineProps<ApprovalAttr>()
+const $props = defineProps<MeterialReportAttr>()
 const $emits = defineEmits<{
   (e: 'update:node', modelValue: CcNode): void
 }>()

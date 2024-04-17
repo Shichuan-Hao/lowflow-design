@@ -1,22 +1,25 @@
-import {ErrorInfo, FlowNode} from '../nodes/Node/index'
-import {ExclusiveNode} from '../nodes/Exclusive/index'
-import {BranchNode} from '../nodes/Branch/index'
+import {ErrorInfo, FlowNode}        from '../nodes/Node/index'
+import {ExclusiveNode}              from '../nodes/Exclusive/index'
+import {BranchNode}                 from '../nodes/Branch/index'
 import {ConditionNode, FilterRules} from '../nodes/Condition/index'
-import {ApprovalNode} from '../nodes/Approval/index'
-import {CcNode} from '../nodes/Cc/index'
-import {ref, Ref} from "vue";
-import {FormProperty} from "~/views/flowDesign/index";
-import {Field} from "~/components/Render/interface";
+import {MeterialReportNode}         from '../nodes/meterialReport/index'
+import {CcNode}                     from '../nodes/Cc/index'
+import {ref, Ref}                   from "vue";
+import {FormProperty}               from "~/views/flowDesign/index";
+import {Field}                      from "~/components/Render/interface";
 
 const useNode = (node: Ref<FlowNode>, fields: Ref<Field[]>) => {
+
     /**
      * 节点错误信息
      */
     const nodeErrors = ref(new Map<string, string>())
+
     /**
      * 每个节点的ref
      */
     const nodeRefs = ref(new Map<string, any>())
+
     /**
      * 校验所有节点
      */
@@ -33,6 +36,7 @@ const useNode = (node: Ref<FlowNode>, fields: Ref<Field[]>) => {
         })
         return nodeErrors
     }
+
     /**
      * 添加节点ref
      * @param id
@@ -41,6 +45,7 @@ const useNode = (node: Ref<FlowNode>, fields: Ref<Field[]>) => {
     const addNodeRef = (id: string, ref: any) => {
         nodeRefs.value.set(id, ref)
     }
+
     /**
      * 生成唯一节点id
      */
@@ -68,6 +73,7 @@ const useNode = (node: Ref<FlowNode>, fields: Ref<Field[]>) => {
         }
         return id
     }
+
     /**
      * 添加条件
      * @param currentNode
@@ -88,49 +94,30 @@ const useNode = (node: Ref<FlowNode>, fields: Ref<Field[]>) => {
             child: null
         } as ConditionNode)
     }
+
     /**
-     * 添加审批
+     * 
+     * 考核材料上报 add the task of kaohe meterial report
+     * kaohe_meterial_report kmr
      * @param currentNode
      */
-    const addApproval = (currentNode: FlowNode) => {
+    const addKaoheMeterialReport = (currentNode: FlowNode) => {
         const child = currentNode.child
         const id = generateId()
         currentNode.child = {
             id: id,
             pid: currentNode.id,
-            type: 'approval',
-            name: '审批人',
+            type: 'meterialReport',
+            name: '考核上报',
             child: child,
             // 属性
-            assigneeType: 'user',
-            formUser: '',
-            formRole: '',
+            assigneeType: 'dept',
             users: [],
             roles: [],
-            leader: 1,
-            choice: false,
-            self: false,
+            depts: [],
             multi: 'sequential',
-            nobody: 'pass',
-            formProperties: fields.value.map(item => {
-                return {
-                    id: item.id,
-                    name: item.title,
-                    readable: true,
-                    writeable: false,
-                    hidden: false,
-                    required: false
-                } as FormProperty
-            }),
-            operations: {
-                complete: true,
-                refuse: true,
-                save: true,
-                transfer: false,
-                addMulti: false,
-                minusMulti: false
-            }
-        } as ApprovalNode
+
+        } as MeterialReportNode
         if (child) {
             child.pid = id
         }
@@ -194,7 +181,7 @@ const useNode = (node: Ref<FlowNode>, fields: Ref<Field[]>) => {
 
     const addNodes: Record<string, (currentNode: FlowNode) => void> = {
         condition: addConnection,
-        approval: addApproval,
+        meterialReport: addKaoheMeterialReport,
         cc: addCc,
         exclusive: addExclusive
     }
@@ -209,6 +196,7 @@ const useNode = (node: Ref<FlowNode>, fields: Ref<Field[]>) => {
     const delNode = (del: FlowNode) => {
         delNodeNext(node.value, del)
     }
+    
     const delNodeNext = (next: FlowNode, del: FlowNode) => {
         if (next.id === del.pid) {
             if ('children' in next && next.child?.id !== del.id) {

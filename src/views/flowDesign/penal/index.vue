@@ -2,14 +2,14 @@
 import {ClickOutside as vClickOutside} from 'element-plus'
 import {FlowNode} from '../nodes/Node/index'
 import {type Component, ref} from 'vue'
-import ApprovalAttr from './ApprovalAttr.vue'
+import MeterialReportAttr from './MeterialReportAttr.vue'
 import CcAttr from './CcAttr.vue'
 import StartAttr from './StartAttr.vue'
 import ConditionAttr from "./ConditionAttr.vue";
 
 const nodeProps: Record<string, Component> = {
   start: StartAttr,
-  approval: ApprovalAttr,
+  meterialReport: MeterialReportAttr,
   cc: CcAttr,
   condition: ConditionAttr
 }

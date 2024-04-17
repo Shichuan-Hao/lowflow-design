@@ -1,6 +1,6 @@
 <script setup lang="ts" name="NodeTree">
 import StartNode from './Start/index.vue'
-import ApprovalNode from './Approval/index.vue'
+import MeterialReportNode from './meterialReport/index.vue'
 import CcNode from './Cc/index.vue'
 import ConditionNode from './Condition/index.vue'
 import ExclusiveNode from './Exclusive/index.vue'
@@ -13,7 +13,7 @@ defineProps<{
 }>()
 const nodes: Record<string, Component> = {
   start: StartNode,
-  approval: ApprovalNode,
+  meterialReport: MeterialReportNode,
   cc: CcNode,
   condition: ConditionNode,
   exclusive: ExclusiveNode,

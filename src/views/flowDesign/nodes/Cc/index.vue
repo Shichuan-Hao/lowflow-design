@@ -5,11 +5,12 @@ import Content from './content.vue'
 import {ErrorInfo} from '../Node/index'
 import {ref} from "vue";
 
-export interface ApprovalProps {
+export interface MeterialReportProps {
   node: CcNode
 }
 
-const $props = withDefaults(defineProps<ApprovalProps>(), {})
+const $props = withDefaults(defineProps<MeterialReportProps>(), {})
+
 const errorInfo = ref<ErrorInfo>({
   showError: false,
   message: ''

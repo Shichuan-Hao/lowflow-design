@@ -2,34 +2,21 @@
 import {type ElPopover} from 'element-plus'
 import {ref} from "vue";
 import {Stamp,Promotion,Share,Plus} from "@element-plus/icons-vue";
-
 const nodePopoverRef = ref<InstanceType<typeof ElPopover>>()
-
 const $emits = defineEmits<{
   (e: 'addNode', type: string): void
 }>()
 
-// 材料上报
-const addKaoheMeterialReport = () => {
-  $emits('addNode', 'meterialReport')
+const addApprovalNode = () => {
+  $emits('addNode', 'approval')
   nodePopoverRef.value?.hide()
 }
-
-// 业务审核
-const addKaoheBusinessReview = () => {
-  $emits('addNode', 'kaoheBusinessReview')
+const addCcNode = () => {
+  $emits('addNode', 'cc')
   nodePopoverRef.value?.hide()
 }
-
-// 考核审批
-const addKaoheAssesmentApproval = () => {
-  $emits('addNode', 'kaoheAssesmentApproval')
-  nodePopoverRef.value?.hide()
-}
-
-// 结果公示
-const addKaoheAnnouncement = () => {
-  $emits('addNode', 'kaoheAnnouncement')
+const addExclusiveNode = () => {
+  $emits('addNode', 'exclusive')
   nodePopoverRef.value?.hide()
 }
 </script>
@@ -37,37 +24,26 @@ const addKaoheAnnouncement = () => {
 <template>
   <div class="add-but">
     <el-popover placement="bottom-start" ref="nodePopoverRef" trigger="click" title="添加节点" :width="235">
-      
       <div class="node-select">
-        <div @click="addKaoheMeterialReport">
+        <div @click="addApprovalNode">
           <el-icon color="#ff943e">
-            <Promotion/>
+            <Stamp/>
           </el-icon>
-          <span>考核上报</span>
+          <span>审批人</span>
         </div>
-
-        <div @click="">
+        <div @click="addCcNode">
           <el-icon color="#3296fa">
             <Promotion/>
           </el-icon>
-          <span>业务审核</span>
+          <span>抄送人</span>
         </div>
-
-        <div @click="">
-          <el-icon  color="red">
-            <Promotion/>
+        <div @click="addExclusiveNode">
+          <el-icon>
+            <Share/>
           </el-icon>
-          <span>考核审核</span>
-        </div>
-        
-        <div @click="">
-          <el-icon color="green">
-            <Promotion/>
-          </el-icon>
-          <span>结果公示</span>
+          <span>互斥分支</span>
         </div>
       </div>
-
       <template #reference>
         <el-button
             :icon="Plus"

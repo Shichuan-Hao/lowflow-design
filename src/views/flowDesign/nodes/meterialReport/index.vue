@@ -1,19 +1,21 @@
 <script setup lang="ts">
 import Node from '../Node/index.vue'
 import Content from './content.vue'
-import {ApprovalNode} from './index'
+import {MeterialReportNode} from './index'
 import {ErrorInfo} from '../Node/index'
 import {ref} from "vue";
 
-export interface ApprovalProps {
-  node: ApprovalNode
+export interface MeterialReportProps {
+  node: MeterialReportNode
 }
 
-const $props = withDefaults(defineProps<ApprovalProps>(), {})
+const $props = withDefaults(defineProps<MeterialReportProps>(), {})
+
 const errorInfo = ref({
   showError: false,
   message: ''
 })
+
 const validate = (): ErrorInfo | undefined => {
   errorInfo.value = {
     showError: false,
@@ -33,25 +35,11 @@ const validate = (): ErrorInfo | undefined => {
         message: `节点：[ ${$props.node.name} ] 未指定角色`
       }
     }
-  } else if ($props.node.assigneeType === 'formUser') {
-    if (!$props.node.formRole) {
+  } else if ($props.node.assigneeType === 'dept') {
+    if ($props.node.depts.length === 0) {
       errorInfo.value = {
         showError: true,
-        message: `节点：[ ${$props.node.name} ] 未指定表单内人员`
-      }
-    }
-  } else if ($props.node.assigneeType === 'formRole') {
-    if (!$props.node.formRole) {
-      errorInfo.value = {
-        showError: true,
-        message: `节点：[ ${$props.node.name} ] 未指定表单内角色`
-      }
-    }
-  } else if ($props.node.assigneeType === 'leader') {
-    if (!$props.node.leader) {
-      errorInfo.value = {
-        showError: true,
-        message: `节点：[ ${$props.node.name} ] 未指定多级上级`
+        message: `节点：[ ${$props.node.name} ] 未指定部门`
       }
     }
   }

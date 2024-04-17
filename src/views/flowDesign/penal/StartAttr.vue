@@ -8,11 +8,11 @@ import {FormProperty} from "~/views/flowDesign/index";
 
 const activeName = ref('formPermissions')
 
-export interface ApprovalAttr {
+export interface MeterialReportAttr {
   node: StartNode
 }
 
-const $props = defineProps<ApprovalAttr>()
+const $props = defineProps<MeterialReportAttr>()
 const $emits = defineEmits<{
   (e: 'update:node', modelValue: StartNode): void
 }>()
